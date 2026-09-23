@@ -1,7 +1,9 @@
+package Unit1REVIEW;
+
 import java.util.*;
 
 /**
- * Glen_James_powerUp_Challenge.java
+ * Unit1REVIEW.Glen_James_powerUp_Challenge.java
  * Description: Delivers positive power-up messages based on user input.
  * Name: James Glen
  * Date: Sep 23, 2026
