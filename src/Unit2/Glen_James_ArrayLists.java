@@ -50,7 +50,7 @@ public class Glen_James_ArrayLists {
             System.out.print(arrayList3.get(i + 4));
         }
 
-        System.out.println();
+        System.out.println(); //
 
         // Question Four
         ArrayList<Integer> zero_list = new ArrayList<>();
