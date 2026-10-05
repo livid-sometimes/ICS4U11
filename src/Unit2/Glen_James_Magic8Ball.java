@@ -141,6 +141,17 @@ public class Glen_James_Magic8Ball {
         );
         System.out.println("=========================================================");
 
+        System.out.println("                                                \n" +
+                "\u001B[38;2;0;0;0m                ▄▄            ▄▄          ▄▄ ▄▄ \n" +
+                "      ▀▀        ██     ██     ██          ██ ██ \n" +
+                "▄█▀█▄ ██  ▄████ ████▄ ▀██▀▀   ████▄  ▀▀█▄ ██ ██ \n" +
+                "\u001B[38;2;255;255;255m██▄█▀ ██  ██ ██ ██ ██  ██     ██ ██ ▄█▀██ ██ ██ \n" +
+                "\u001B[38;2;0;0;0m▀█▄▄▄ ██▄ ▀████ ██ ██  ██     ████▀ ▀█▄██ ██ ██ \n" +
+                "             ██                                 \n" +
+                "           ▀▀▀                                 \u001B[0m ");
+
+        System.out.println("=========================================================");
+
         System.out.println("Bobby the Eighth: \"Welcome to the eight ball.\"");
         sleep(200);
 
@@ -170,4 +181,3 @@ public class Glen_James_Magic8Ball {
         }
     }
 }
-
