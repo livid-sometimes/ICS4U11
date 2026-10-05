@@ -15,8 +15,12 @@ import static java.lang.Thread.sleep;
 public class Glen_James_Magic8Ball {
 
     /**
-     *Creates a message from the pool of topics from the responses parameter and from there takes a random message
-     *from the topic.
+     *
+     * Pre-Condition: A valid response 2d array with a length of 3.
+     * Post-Condition: The procedure displays a random messages based on the Random object's selection.
+     *
+     * Description: Creates a message from the pool of topics from the responses parameter and from there takes a random message
+     * from the topic.
 
      * @param responses
      * @throws InterruptedException
@@ -30,9 +34,12 @@ public class Glen_James_Magic8Ball {
         Random r = new Random();
 
         // variables
-        int responsesLength = responses.length;
+        int responsesLength = responses.length; // gets the 2d arrays length.
         int randomTopic = r.nextInt(responsesLength);
 
+        /*
+
+         */
         int selectedTopicMessageLength = responses[randomTopic].length;
         int randomMessage = r.nextInt(1, selectedTopicMessageLength);
 
@@ -83,7 +90,7 @@ public class Glen_James_Magic8Ball {
             \u001B[3m - makes the text italics
 
             \u001B[0m - stops all previous escape sequence effects. and resets it to the terminals default.
-            ( i usually put them at the end of the string )
+            ( I usually put them at the end of the string )
 
         */
 
@@ -120,7 +127,7 @@ public class Glen_James_Magic8Ball {
                 "Very doubtful"
         };
 
-        String[][] responses = {Positive, Uncertain, Negative};
+        String[][] responses = {Positive, Uncertain, Negative}; // create a 2d array based on the messages.
 
         // variables //
         Scanner mainS = new Scanner(System.in);
