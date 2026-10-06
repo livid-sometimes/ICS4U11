@@ -17,7 +17,7 @@ public class Glen_James_Magic8Ball {
     /**
      *
      * Pre-Condition: A valid response 2d array with a length of 3.
-     * Post-Condition: The procedure displays a random messages based on the Random object's selection.
+     * Post-Condition: The procedure displays a random message along with the topic based on the 2d response array.
      *
      * Description: Creates a message from the pool of topics from the responses parameter and from there takes a random message
      * from the topic.
@@ -37,9 +37,6 @@ public class Glen_James_Magic8Ball {
         int responsesLength = responses.length; // gets the 2d arrays length.
         int randomTopic = r.nextInt(responsesLength);
 
-        /*
-
-         */
         int selectedTopicMessageLength = responses[randomTopic].length;
         int randomMessage = r.nextInt(1, selectedTopicMessageLength);
 
@@ -168,7 +165,7 @@ public class Glen_James_Magic8Ball {
         while (!isDone) {
             sleep(300);
 
-            System.out.println("Bobby the Eighth: \"Want to shake the eight ball again " + System.getProperty("user.name") + "?\"");
+            System.out.println("Bobby the Eighth: \"Want to shake the eight ball again, " + System.getProperty("user.name") + "?\"");
             System.out.println("(make sure to answer with a \"YES\" or \"Y\", any other answer is a no.)".toUpperCase());
 
             sleep(100);
