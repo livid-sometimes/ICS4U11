@@ -4,7 +4,46 @@ import java.util.Scanner;
 
 public class Glen_James_UserInfoSystem {
 
-    public static void doLogin(Scanner s) {
+    public static void createPassword(Scanner s) {
+        String password = "";
+
+        boolean hasCapital = false;
+        boolean hasLowerCase = false;
+        boolean hasNumbers = false;
+        boolean hasSymbols = false;
+
+        boolean isValidPassword = false;
+
+        while(!isValidPassword) {
+            System.out.println("CREATE A PASSWORD: ");
+            password = s.nextLine();
+
+            if (password.length() < 12) { return; }
+
+            for (int i = 0; i < password.length(); i++) {
+
+                if (Character.isLowerCase(password.charAt(i))) {
+                    System.out.println("lower");
+                    hasLowerCase = true;
+                } else if (Character.isUpperCase(password.charAt(i))) {
+                    System.out.println("cap");
+                    hasCapital = true;
+                } else if (Character.isDigit(password.charAt(i))) {
+                    System.out.println("num");
+                    hasNumbers = true;
+                } else if (!(Character.isDigit(password.charAt(i)) && !(Character.isLetter(password.charAt(i))))) {
+                    System.out.println("sumbol");
+                    hasSymbols = true;
+                }
+
+                password = "";
+            }
+
+        }
+
+    }
+
+    public static String doLogin(Scanner s) {
         // Strings variables //
         String firstName = "";
         String middleName = "";
@@ -73,27 +112,28 @@ public class Glen_James_UserInfoSystem {
 
         reverseOrder = firstName.substring(0, 4);
 
-        for (int i = reverseOrder.length() - 1; i > reverseOrder.length() - 3; i--) {
-            tempReverse += reverseOrder.charAt(i);
+        for (int i = reverseOrder.length(); i > reverseOrder.length() - 4; i--) {
+            tempReverse += reverseOrder.charAt(i - 1);
         }
 
-        System.out.println(reverseOrder);
+        reverseOrder = tempReverse;
 
         login = (lastTwo + firstThree + days + reverseOrder).toLowerCase();
 
-        System.out.println(login);
+        System.out.println("Your login is, " + login + ".");
 
+        return login;
     }
 
 
     // VALIDATORS //
 
     public static boolean validateName(String name) {
-        // NOTE: Mrs. Schembri said min name length is 3, so i'll do 3 for the min'
+        // NOTE: Mrs. Schembri said min name length is 3, so i'll do 3 for the min //
         if (name.length() < 3) { return false; }
 
         for (int i = 0; i < name.length(); i++) {
-            if (Character.isWhitespace(name.charAt(i))) {
+            if (name.charAt(i) == ' ') {
                 return false;
             }
         }
@@ -111,6 +151,7 @@ public class Glen_James_UserInfoSystem {
         }
 
         // first check: if it is an int with a length of 8 //
+        // NOTE: the date must be MMDDYYYY -> hence the string length of 8
         if (birthDate.length() != 8) {return false;}
 
         // second check: see if the first two nums are in the range of 1 - 12 //
@@ -158,6 +199,9 @@ public class Glen_James_UserInfoSystem {
     public static void main(String[] args) {
 
         // important variables //
+        String login;
+        String password;
+
         Scanner s = new Scanner(System.in);
 
         System.out.println(
@@ -174,7 +218,7 @@ public class Glen_James_UserInfoSystem {
         );
 
 
-        doLogin(s);
-
+//        login = doLogin(s);
+            createPassword(s);
     }
 }
