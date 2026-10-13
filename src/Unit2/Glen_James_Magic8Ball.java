@@ -7,24 +7,28 @@ import static java.lang.Thread.sleep;
 
 /**
  * Glen_James_Magic8Ball.java
- * Description: Just like the toy, it gives responses per 'shake' some positive, some negative, some netural.
+ * Description: Just like the toy, it gives responses per 'shake' some positive, some negative, some neutral. Asks the user
+ * if they want to 'shake' again.
  * Name: James Glen
  * Date: October 6, 2026
  */
 
+// READ THE NOTES IF CONFUSED ABOUT WHY THERE'S COLORS. //
+// ANY WAY FIRST "new" CONCEPT ASSIGNMENT FOR ME, THIS WAS FUN TO MAKE! //
+
 public class Glen_James_Magic8Ball {
 
     /**
-     *
-     * Pre-Condition: A valid response 2d array with a length of 3.
-     * Post-Condition: The procedure displays a random message along with the topic based on the 2d response array.
+     * Pre-Condition: A valid 2d String array being passed through.
+     * Post-Condition: The procedure displays a random messages based on the Random object's selection.
      *
      * Description: Creates a message from the pool of topics from the responses parameter and from there takes a random message
      * from the topic.
 
-     * @param responses
-     * @throws InterruptedException
+     * @param responses A 2D array containing the categories and their associated answers
+     * @throws InterruptedException Used for the sleep method, causing the pause effect in the System.out
      */
+
 
     public static void eightBall(String[][] responses) throws InterruptedException {
         System.out.println("=========================================================");
@@ -35,7 +39,7 @@ public class Glen_James_Magic8Ball {
 
         // variables
         int responsesLength = responses.length; // gets the 2d arrays length.
-        int randomTopic = r.nextInt(responsesLength);
+        int randomTopic = r.nextInt(responsesLength); // [0, responsesLength)
 
         int selectedTopicMessageLength = responses[randomTopic].length;
         int randomMessage = r.nextInt(1, selectedTopicMessageLength);
@@ -62,13 +66,13 @@ public class Glen_James_Magic8Ball {
         System.out.println(); // little space.
         sleep(300);
 
-        System.out.println("⓼: \"I feel... " + responses[randomTopic][0] + ".\u001B[0m\"");
+        System.out.println("⓼: \"I feel... " + responses[randomTopic][0] + ".\u001B[0m\""); // NOTE: [0] is always the category.
         sleep(300);
 
         System.out.println("⓼: \"\u001B[3m" +  responses[randomTopic][randomMessage] + ".\"" + "\u001B[0m");
         sleep(300);
 
-        System.out.println("========================================================="); // make another space
+        System.out.println("=========================================================");
 
     }
 
@@ -90,6 +94,11 @@ public class Glen_James_Magic8Ball {
             ( I usually put them at the end of the string )
 
         */
+
+        /*
+            NOTE: why would it be rows instead of columns, each array has a different length of message... causing a
+            IndexOutOfBounds Exception! So, I did columns instead to avoid this issue.
+         */
 
         // Messages //
         String[] Positive = {
@@ -127,9 +136,9 @@ public class Glen_James_Magic8Ball {
         String[][] responses = {Positive, Uncertain, Negative}; // create a 2d array based on the messages.
 
         // variables //
-        Scanner mainS = new Scanner(System.in);
-
+        Scanner mainS = new Scanner(System.in); // creating a scanner here as well. (since the only param for the eight-ball method is only a String[][])
         String option = "";
+
         boolean isDone = false;
 
         System.out.println(
@@ -165,18 +174,18 @@ public class Glen_James_Magic8Ball {
         while (!isDone) {
             sleep(300);
 
-            System.out.println("Bobby the Eighth: \"Want to shake the eight ball again, " + System.getProperty("user.name") + "?\"");
+            System.out.println("Bobby the Eighth: \"Want to shake the eight ball again " + System.getProperty("user.name") + "?\"");
             System.out.println("(make sure to answer with a \"YES\" or \"Y\", any other answer is a no.)".toUpperCase());
 
             sleep(100);
 
             System.out.println("=========================================================");
-            System.out.print(System.getProperty("user.name") + ": ");
+            System.out.print(System.getProperty("user.name") + ": "); // get the systems OS name.
 
             option = mainS.nextLine();
 
             if (option.equalsIgnoreCase("YES") || option.equalsIgnoreCase("Y")) {
-                eightBall(responses);
+                eightBall(responses); // then call the method again.
             } else {
                 System.out.println("=========================================================");
                 System.out.println("Bobby the Eighth: \"See you later then.\"");
