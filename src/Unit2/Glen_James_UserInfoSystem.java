@@ -1,29 +1,161 @@
 package Unit2;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import static java.lang.Thread.sleep;
+
 public class Glen_James_UserInfoSystem {
 
-    public static int findChar(String s, char c) {
-        int toReturn = 0;
+    // VIEWING / EDITING USERS //
 
-        for (int i = 0; i < s.length(); i++) {
-            if (s.charAt(i) == c) {
-                toReturn = i;
-                i = s.length();
-            }
+    public static void editEmails(ArrayList<String[][]> data){
+
+        for (int i = 0; i < 10; i++) {
+            System.out.println();
         }
 
-        return toReturn;
+        System.out.println(
+                "\u001b[38;2;20;90;220m███████╗██████╗ ██╗████████╗    ███████╗███╗   ███╗ █████╗ ██╗██╗     ███████╗\n" +
+                        "\u001b[38;2;50;130;240m██╔════╝██╔══██╗██║╚══██╔══╝    ██╔════╝████╗ ████║██╔══██╗██║██║     ██╔════╝\n" +
+                        "\u001b[38;2;80;170;255m█████╗  ██║  ██║██║   ██║       █████╗  ██╔████╔██║███████║██║██║     ███████╗\n" +
+                        "\u001b[38;2;110;200;255m██╔══╝  ██║  ██║██║   ██║       ██╔══╝  ██║╚██╔╝██║██╔══██║██║██║     ╚════██║\n" +
+                        "\u001b[38;2;150;225;255m███████╗██████╔╝██║   ██║       ███████╗██║ ╚═╝ ██║██║  ██║██║███████╗███████║\n" +
+                        "\u001b[38;2;200;245;255m╚══════╝╚═════╝ ╚═╝   ╚═╝       ╚══════╝╚═╝     ╚═╝╚═╝  ╚═╝╚═╝╚══════╝╚══════╝\n" +
+                        "\u001b[38;2;255;255;255m                                                                       \u001b[0m"
+        );
+
+        int count = 0;
+
+        FileReader frInfo = null;
+        Scanner sInfo = null;
+
+        Scanner userScanner = new Scanner(System.in);
+
+        String[][] userInfo = data.get(0);
+        String[][] userData = data.get(1);
+
+        String enterUser = "";
+        String enterPassword = "";
+        String newEmail = "";
+
+        int option = 0;
+
+        try {
+            frInfo = new FileReader("userInfo.txt");
+        } catch (IOException e) {
+            System.out.println("READING FILE ERROR, are you sure this file has been written?");
+            return;
+        }
+
+        sInfo = new Scanner(frInfo);
+
+        while (sInfo.hasNextLine()) {
+            count++;
+            System.out.println(count + ". " + sInfo.nextLine());
+        }
+
+        // Reset the Scanner and FileReader //
+        try {
+            frInfo.close();
+            frInfo = new FileReader("userInfo.txt");
+        } catch (IOException e) {
+            System.out.println("READING FILE ERROR, are you sure this file has been written?");
+            return;
+        }
+
+        sInfo.close();
+        sInfo = new Scanner(frInfo);
+
+        try {
+            System.out.println("═══════════════════════════════════════════════════════════════════════════════════");
+            System.out.println("Who are you editing: ");
+
+            option = userScanner.nextInt();
+
+            System.out.println("ENTER USERNAME: ");
+            enterUser = userScanner.nextLine();
+
+            System.out.println("ENTER PASSWORD: ");
+            enterPassword = userScanner.nextLine();
+
+            if (userData[option - 1][0].equals(enterUser) && userData[option - 1][1].equals(enterPassword)) {
+                System.out.println("Enter the new email address: ");
+
+                // jump to that line //
+                for (int i = 0; i < count; i++) {
+                    if (!sInfo.hasNextLine()) { i = count; }
+                    sInfo.nextLine();
+                }
+
+                System.out.println(sInfo.nextLine());
+
+            } else {
+                System.out.println("INVALID USERNAME or PASSWORD");
+            }
+
+        } catch (InputMismatchException e) {
+            System.out.println("Invalid input type. Please enter a number.");
+        } catch (ArrayIndexOutOfBoundsException f) {
+            System.out.println("An error occurred while editing the email.");
+        }
+
     }
 
-    public static void addEmail(Scanner s) {
+
+    public static void displayUsers() {
+        for (int i = 0; i < 10; i++) {
+            System.out.println();
+        }
+
+        System.out.println(
+                "\u001b[38;2;128;0;128m                                                                     \n" +
+                        "\u001b[38;2;144;32;112m                                                                     \n" +
+                        "\u001b[38;2;160;64;96m                                   █▄                                 \n" +
+                        "\u001b[38;2;176;96;80m             ▄    ▄         ▄     ▄██▄                     ▄        \n" +
+                        "\u001b[38;2;191;128;64m ▄███▀ ██ ██ ████▄████▄▄█▀█▄ ████▄ ██    ██ ██ ▄██▀█ ▄█▀█▄ ████▄▄██▀█\n" +
+                        "\u001b[38;2;207;160;48m ██    ██ ██ ██   ██   ██▄█▀ ██ ██ ██    ██ ██ ▀███▄ ██▄█▀ ██   ▀███▄\n" +
+                        "\u001b[38;2;223;191;32m▄▀███▄▄▀██▀█▄█▀  ▄█▀  ▄▀█▄▄▄▄██ ▀█▄██   ▄▀██▀██▄▄██▀▄▀█▄▄▄▄█▀  █▄▄██▀\n" +
+                        "\u001b[38;2;239;223;16m                                                                     \n" +
+                        "\u001b[38;2;255;255;0m                                                                     \u001b[0m"
+        );
+
+        FileReader frInfo = null;
+        Scanner sInfo = null;
+
+        Scanner userScanner = new Scanner(System.in);
+
+        try {
+            frInfo = new FileReader("userInfo.txt");
+        } catch (IOException e) {
+            System.out.println("READING FILE ERROR, are you sure this file has been written?");
+            return;
+        }
+
+        sInfo = new Scanner(frInfo);
+
+        while (sInfo.hasNextLine()) {
+            System.out.println(sInfo.nextLine());
+        }
+
+        System.out.println("\n═══════════════════════════════════════════════════════════════════════════════════");
+        System.out.println("Press any key to exit");
+        System.out.println("═══════════════════════════════════════════════════════════════════════════════════");
+        userScanner.nextLine();
+    }
+
+    public static ArrayList<String[][]> addEmail() {
         int lineCount = 0;
 
         FileReader frInfo = null;
         FileReader frData = null;
+
+        Scanner sInfo = null;
+        Scanner sData = null;
+
+        ArrayList<String[][]> data = new ArrayList<>();
 
         boolean isDoneAdding = false;
 
@@ -32,14 +164,14 @@ public class Glen_James_UserInfoSystem {
             frData = new FileReader("userData.txt");
         } catch (IOException e) {
             System.out.println("READING FILE ERROR, are you sure this file has been written?");
-            return;
+            return null;
         }
 
         // create new scanners just for the files
-        Scanner sInfo = new Scanner(frInfo);
-        Scanner sData = new Scanner(frData);
+        sInfo = new Scanner(frInfo);
+        sData = new Scanner(frData);
 
-        while (sInfo.hasNextLine()) { // checks how many usernames are there.
+        while (sInfo.hasNextLine()) { // checks how many users are there.
             sInfo.nextLine();
             lineCount++;
         }
@@ -49,7 +181,7 @@ public class Glen_James_UserInfoSystem {
             frInfo = new FileReader("userInfo.txt"); // create a new one because the reader was at the last line
         } catch (IOException e) {
             System.out.println("READING FILE ERROR, are you sure this file has been written?");
-            return;
+            return null;
         }
 
         sInfo.close();
@@ -64,89 +196,49 @@ public class Glen_James_UserInfoSystem {
             String infoLine = sInfo.nextLine();
             String dataLine = sData.nextLine();
 
+            // userInfo
             // [0] -> Name
             // [1] -> B-Date
-            // [2] -> Email (will be null for now)
+            // [2] -> Email
+
+            // userData
+            // [0] -> Username
+            // [1] -> Password
 
             // find where the comma takes place
-            int commaInfo = findChar(infoLine, ','); // returns an index based on the String
-            int commaData = findChar(dataLine, ','); // returns an index based on the String
+            int infoLineFirstComma = infoLine.indexOf(","); // for the first separation
+            int infoLineSecondComma = infoLine.indexOf(",", infoLineFirstComma + 1); // for the second separation
 
-            userInfo[i][0] = infoLine.substring(0, commaInfo);
-            userInfo[i][1] = infoLine.substring(commaInfo + 2); // removes the space from the formatting
-            userInfo[i][2] = null;
+            int commaData = dataLine.indexOf(","); // returns an index based on the String
+
+            userInfo[i][0] = infoLine.substring(0, infoLineFirstComma);
+            userInfo[i][1] = infoLine.substring(infoLineFirstComma + 2, infoLineSecondComma); // removes the space from the formatting
+            userInfo[i][2] = userInfo[i][2] = infoLine.substring(infoLineSecondComma + 2);
 
             userData[i][0] = dataLine.substring(0, commaData);
             userData[i][1] = dataLine.substring(commaData + 2); // removes the space from the formatting
-
-            System.out.println(userInfo[i][0]);
-            System.out.println(userInfo[i][1]);
-
-            System.out.println(userData[i][0]);
-            System.out.println(userData[i][1]);
-
-            System.out.println("===================================================================================>");
         }
 
-        // email time //
-        while (!isDoneAdding) {
+        System.out.println("═══════════════════════════════════════════════════════════════════════════════════");
+        System.out.println("Profile Created!");
+        System.out.println("═══════════════════════════════════════════════════════════════════════════════════");
 
-            int option = 0;
-            int count = 0;
+        // add them to the data array list //
 
-            String username = "";
-            String password = "";
-            String email = "";
+        /*
+            data.get(0) -> userInfo
+            data.get(1) -> userData
+        */
 
-            System.out.println("===================================================================================>");
+        data.add(userInfo);
+        data.add(userData);
 
-            for (int i = 0; i < userInfo.length; i++) {
-                String personName = userInfo[i][0];
-
-                if (userInfo[i][2] == null) {
-                    System.out.println(i + 1 + ". " + personName);
-                    count++;
-                }
-            }
-
-            System.out.println("===================================================================================>");
-            System.out.println("Select the following person to add an email to.");
-
-            try {
-                option = s.nextInt();
-
-                if (option > count || option <= 0) {
-                    System.out.println("invalid option");
-                    continue;
-                }
-
-                System.out.println("SELECTED -> " + userInfo[option - 1][0]);
-
-                System.out.println("ENTER LOGIN: ");
-                username = s.nextLine();
-
-                System.out.println("ENTER PASSWORD: ");
-                password = s.nextLine();
-
-                if (username.equals(userData[option - 1][0]) && password.equals(userData[option - 1][1])) {
-                    System.out.println("Enter a new email: ");
-                    email = s.nextLine();
-                } else {
-                    System.out.println("INCORRECT LOGIN AND PASSWORD");
-                }
-
-
-            } catch(InputMismatchException e) {
-                System.out.println("INVALID NUM");
-            }
-        }
-
-
-
-
+        return data;
     }
 
-    public static String createPassword(Scanner s, String login) {
+    public static String createPassword(String login) {
+        Scanner s = new Scanner(System.in);
+
         String password = "";
         String[] userLoginCredits = new String[2];
 
@@ -158,8 +250,9 @@ public class Glen_James_UserInfoSystem {
         boolean isValidPassword = false;
 
         while (!isValidPassword) {
-            System.out.println("===================================================================================>");
+            System.out.println("═══════════════════════════════════════════════════════════════════════════════════");
             System.out.println("CREATE A PASSWORD: ");
+            System.out.println("═══════════════════════════════════════════════════════════════════════════════════");
             password = s.nextLine();
 
             if (password.length() < 12) {
@@ -190,6 +283,7 @@ public class Glen_James_UserInfoSystem {
                 hasCapital = false;
 
                 System.out.println();
+                System.out.println("═══════════════════════════════════════════════════════════════════════════════════");
                 System.out.println("PASSWORD IS NOT VALID.");
                 System.out.println("make sure to have:");
 
@@ -197,6 +291,7 @@ public class Glen_James_UserInfoSystem {
                 System.out.println("2. at least one upper case letter");
                 System.out.println("3. at least one number");
                 System.out.println("4. at least one symbol. e.x: \"^\", \"@\"");
+                System.out.println("═══════════════════════════════════════════════════════════════════════════════════");
 
                 for (int i = 0; i < 3; i++) {
                     System.out.println(); // create spaces
@@ -225,11 +320,31 @@ public class Glen_James_UserInfoSystem {
         return password;
     }
 
-    public static String doLogin(Scanner s) {
+    public static String doLogin() {
+        for (int i = 0; i < 10; i++) {
+            System.out.println();
+        }
+
+        System.out.println(
+                "\u001b[38;2;168;85;247m                                .                                                                    \n" +
+                        "\u001b[38;2;192;38;211m  ....  ... ..    ....    ....   .||.     ....     ... ...    ....     ....   ... ..      \n" +
+                        "\u001b[38;2;147;51;234m.|   ''  ||' '' .|...|| '' .||    ||   .|...||     ||  ||  ||. '  .|...||   ||' ''      \n" +
+                        "\u001b[38;2;59;130;246m ||       ||     ||     .|' ||    ||   ||           ||  ||  . '|..    ||     ||           \n" +
+                        "\u001b[38;2;6;182;212m '|...' .||.     '|...' '|..'|'  '|.'   '|...'     '|..'|. |'..|'  '|...' .||.          \n" +
+                        "\u001b[38;2;14;165;233m                                                                                                     \n" +
+                        "\u001b[38;2;6;182;212m                                                                                                     \u001b[0m"
+        );
+
+
+
+        Scanner s = new Scanner(System.in);
+
         // Strings variables //
         String firstName = "";
         String middleName = "";
         String lastName = "";
+
+        String email = "";
 
         String[] names = new String[3];
 
@@ -258,23 +373,27 @@ public class Glen_James_UserInfoSystem {
 
         // try until we get a valid name //
         while (!isValidNames) {
+            System.out.println("═══════════════════════════════════════════════════════════════════════════════════");
             System.out.println("==> if your name has a space, make sure to have a hyphen! <==");
-            System.out.println("===================================================================================>");
+            System.out.println("═══════════════════════════════════════════════════════════════════════════════════");
+
             System.out.println("What is your first name?");
             firstName = s.nextLine();
-            System.out.println("===================================================================================>");
+
+            System.out.println("═══════════════════════════════════════════════════════════════════════════════════");
 
             names[0] = firstName;
 
             System.out.println("What is your middle name?");
             middleName = s.nextLine();
-            System.out.println("===================================================================================>");
+
+            System.out.println("═══════════════════════════════════════════════════════════════════════════════════");
 
             names[1] = middleName;
 
             System.out.println("What is your last name?");
             lastName = s.nextLine();
-            System.out.println("===================================================================================>");
+            System.out.println("═══════════════════════════════════════════════════════════════════════════════════");
 
             names[2] = lastName;
 
@@ -293,6 +412,7 @@ public class Glen_James_UserInfoSystem {
         // try until we get a valid birthday //
         while (!isValidBirth) {
             System.out.println("What is your birth date? (use MMDDYYYY)");
+            System.out.println("═══════════════════════════════════════════════════════════════════════════════════");
 
             // read it as a string because on default, java removes the 0
             // e.x 01321 -> 1321
@@ -301,13 +421,23 @@ public class Glen_James_UserInfoSystem {
             isValidBirth = validateBirth(birthDate);
         }
 
+        System.out.println("═══════════════════════════════════════════════════════════════════════════════════");
+        System.out.println("What is your email?");
+        System.out.println("═══════════════════════════════════════════════════════════════════════════════════");
+
+        email = s.nextLine();
+
+        // emails are usually lower case
+        email.toLowerCase();
+
         // NOW, write it to the new userInfo.txt
         PrintWriter pw = new PrintWriter(fw);
 
         pw.print(firstName + " " + middleName + " " + lastName + ", ");
-        pw.print(birthDate.substring(0, 2) + "-" + birthDate.substring(2, 4) + "-" + birthDate.substring(4, 8));
-        pw.println(); // create a space for the next lines.
+        pw.print(birthDate.substring(0, 2) + "-" + birthDate.substring(2, 4) + "-" + birthDate.substring(4, 8) + ", ");
+        pw.print(email);
 
+        pw.println(); // create a space for the next lines.
 
         pw.close();
 
@@ -318,15 +448,15 @@ public class Glen_James_UserInfoSystem {
         reverseOrder = firstName.substring(0, 4);
 
         for (int i = reverseOrder.length() - 1; i > reverseOrder.length() - 4; i--) {
-            tempReverse += reverseOrder.charAt(i - 1);
+            tempReverse += reverseOrder.charAt(i);
         }
 
         reverseOrder = tempReverse;
 
         login = (lastTwo + firstThree + days + reverseOrder).toLowerCase();
-        System.out.println("===================================================================================>");
 
         System.out.println("Your login is, " + login + ".");
+        System.out.println("═══════════════════════════════════════════════════════════════════════════════════");
 
         return login;
     }
@@ -335,8 +465,8 @@ public class Glen_James_UserInfoSystem {
     // VALIDATORS //
 
     public static boolean validateName(String name) {
-        // NOTE: Mrs. Schembri said min name length is 3, so i'll do 3 for the min //
-        if (name.length() < 3) {
+        // NOTE: min name length is 4 //
+        if (name.length() < 4) {
             System.out.println("not valid");
             return false;
         }
@@ -412,46 +542,94 @@ public class Glen_James_UserInfoSystem {
 
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException{
 
         // important variables //
         String login;
-        String password;
 
         boolean isDone = false;
-        String option = "";
+        int option = 0;
+
+        ArrayList<String[][]> data = new ArrayList<>();
 
         Scanner s = new Scanner(System.in);
 
-        System.out.println("\u001B[38;2;0;255;255m▄▄▄█████▓▓█████  ▄████▄   ██░ ██     ██▓    ██▓     ▒█████   ██▒   █▓▓█████ \n" + "\u001B[38;2;0;225;255m▓  ██▒ ▓▒▓█   ▀ ▒██▀ ▀█  ▓██░ ██▒   ▓██▒   ▓██▒    ▒██▒  ██▒▓██░   █▒▓█   ▀ \n" + "\u001B[38;2;0;195;255m▒ ▓██░ ▒░▒███   ▒▓█    ▄ ▒██▀▀██░   ▒██▒   ▒██░    ▒██░  ██▒ ▓██  █▒░▒███   \n" + "\u001B[38;2;0;165;255m░ ▓██▓ ░ ▒▓█  ▄ ▒▓▓▄ ▄██▒░▓█ ░██    ░██░   ▒██░    ▒██   ██░  ▒██ █░░▒▓█  ▄ \n" + "\u001B[38;2;0;135;255m  ▒██▒ ░ ░▒████▒▒ ▓███▀ ░░▓█▒░██▓   ░██░   ░██████▒░ ████▓▒░   ▒▀█░  ░▒████▒\n" + "\u001B[38;2;0;120;235m  ▒ ░░   ░░ ▒░ ░░ ░▒ ▒  ░ ▒ ░░▒░▒   ░▓     ░ ▒░▓  ░░ ▒░▒░▒░    ░ ▐░  ░░ ▒░ ░\n" + "\u001B[38;2;0;105;215m    ░     ░ ░  ░  ░  ▒    ▒ ░▒░ ░    ▒ ░   ░ ░ ▒  ░  ░ ▒ ▒░    ░ ░░   ░ ░  ░\n" + "\u001B[38;2;0;90;195m  ░         ░   ░         ░  ░░ ░    ▒ ░     ░ ░   ░ ░ ░ ▒       ░░     ░   \n" + "\u001B[38;2;0;75;175m            ░  ░░ ░       ░  ░  ░    ░         ░  ░    ░ ░        ░     ░  ░\n" + "\u001B[38;2;0;60;155m                ░                                                ░          \u001B[0m");
 
         /*
             On startup, wipe the old userInfo.txt and userData.txt
         */
 
         try {
-            FileWriter fw = new FileWriter("userInfo.txt", false);
-            FileWriter fw2 = new FileWriter("userData.txt", false);
+            new FileWriter("userInfo.txt", false);
+            new FileWriter("userData.txt", false);
         } catch (IOException e) {
             System.out.println("Failed to wipe, are you sure these file exist?");
         }
 
 
         while (!isDone) {
-            System.out.println("===================================================================================>");
-            System.out.println("Would you like to create a user? ");
-            System.out.println("Any other answer than Y or Yes will be considered as no.");
+            try {
+                System.out.println("\u001B[38;2;0;255;255m▄▄▄█████▓▓█████  ▄████▄   ██░ ██     ██▓    ██▓     ▒█████   ██▒   █▓▓█████ \n" + "\u001B[38;2;0;225;255m▓  ██▒ ▓▒▓█   ▀ ▒██▀ ▀█  ▓██░ ██▒   ▓██▒   ▓██▒    ▒██▒  ██▒▓██░   █▒▓█   ▀ \n" + "\u001B[38;2;0;195;255m▒ ▓██░ ▒░▒███   ▒▓█    ▄ ▒██▀▀██░   ▒██▒   ▒██░    ▒██░  ██▒ ▓██  █▒░▒███   \n" + "\u001B[38;2;0;165;255m░ ▓██▓ ░ ▒▓█  ▄ ▒▓▓▄ ▄██▒░▓█ ░██    ░██░   ▒██░    ▒██   ██░  ▒██ █░░▒▓█  ▄ \n" + "\u001B[38;2;0;135;255m  ▒██▒ ░ ░▒████▒▒ ▓███▀ ░░▓█▒░██▓   ░██░   ░██████▒░ ████▓▒░   ▒▀█░  ░▒████▒\n" + "\u001B[38;2;0;120;235m  ▒ ░░   ░░ ▒░ ░░ ░▒ ▒  ░ ▒ ░░▒░▒   ░▓     ░ ▒░▓  ░░ ▒░▒░▒░    ░ ▐░  ░░ ▒░ ░\n" + "\u001B[38;2;0;105;215m    ░     ░ ░  ░  ░  ▒    ▒ ░▒░ ░    ▒ ░   ░ ░ ▒  ░  ░ ▒ ▒░    ░ ░░   ░ ░  ░\n" + "\u001B[38;2;0;90;195m  ░         ░   ░         ░  ░░ ░    ▒ ░     ░ ░   ░ ░ ░ ▒       ░░     ░   \n" + "\u001B[38;2;0;75;175m            ░  ░░ ░       ░  ░  ░    ░         ░  ░    ░ ░        ░     ░  ░\n" + "\u001B[38;2;0;60;155m                ░                                                ░          \u001B[0m");
+                System.out.println("═══════════════════════════════════════════════════════════════════════════════════");
 
-            option = s.nextLine();
+                System.out.println("[WELCOME TO THE USER INFO SYSTEM.]");
 
-            if (option.equalsIgnoreCase("Y") || option.equalsIgnoreCase("Yes")) {
-                login = doLogin(s);
-                password = createPassword(s, login);
-                addEmail(s);
-            } else {
-                isDone = true;
+                System.out.println("==> 1. Create a new user.");
+                System.out.println("==> 2. View current users.");
+                System.out.println("==> 3. Edit a users email.");
+                System.out.println("==> 4. Exit the program.");
+
+                option = s.nextInt();
+
+                switch (option) {
+                    case 1:
+                        login = doLogin();
+                        createPassword(login);
+                        data = addEmail();
+
+                        break;
+                    case 2:
+                        displayUsers();
+
+                        break;
+                    case 3:
+                        editEmails(data);
+
+                        break;
+
+                    case 4:
+
+                        for (int i = 0; i < 10; i++) {
+                            System.out.println();
+                        }
+
+                        System.out.println("This Program was made by: ");
+
+                        sleep(400);
+
+                        System.out.println(
+                                "\u001B[38;2;255;30;30m▄▄▄██▀▀▀▄▄▄       ███▄ ▄███▓▓█████   ██████      ▄████  ██▓    ▓█████  ███▄    █ \n" +
+                                        "\u001B[38;2;230;20;20m   ▒██  ▒████▄    ▓██▒▀█▀ ██▒▓█   ▀ ▒██    ▒     ██▒ ▀█▒▓██▒    ▓█   ▀  ██ ▀█   █ \n" +
+                                        "\u001B[38;2;200;10;10m   ░██  ▒██  ▀█▄  ▓██    ▓██░▒███   ░ ▓██▄      ▒██░▄▄▄░▒██░    ▒███   ▓██  ▀█ ██▒\n" +
+                                        "\u001B[38;2;175;0;0m▓██▄██▓ ░██▄▄▄▄██ ▒██    ▒██ ▒▓█  ▄   ▒   ██▒   ░▓█  ██▓▒██░    ▒▓█  ▄ ▓██▒  ▐▌██▒\n" +
+                                        "\u001B[38;2;150;0;0m ▓███▒   ▓█   ▓██▒▒██▒   ░██▒░▒████▒▒██████▒▒   ░▒▓███▀▒░██████▒░▒████▒▒██░   ▓██░\n" +
+                                        "\u001B[38;2;125;0;0m ▒▓▒▒░   ▒▒   ▓▒█░░ ▒░   ░  ░░░ ▒░ ░▒ ▒▓▒ ▒ ░    ░▒   ▒ ░ ▒░▓  ░░░ ▒░ ░░ ▒░   ▒ ▒ \n" +
+                                        "\u001B[38;2;100;0;0m ▒ ░▒░    ▒   ▒▒ ░░  ░      ░ ░ ░  ░░ ░▒  ░ ░     ░   ░ ░ ░ ▒  ░ ░ ░  ░░ ░░   ░ ▒░\n" +
+                                        "\u001B[38;2;75;0;0m ░ ░ ░    ░   ▒   ░      ░      ░   ░  ░  ░     ░ ░   ░   ░ ░      ░      ░   ░ ░ \n" +
+                                        "\u001B[38;2;50;0;0m ░   ░        ░  ░       ░      ░  ░      ░           ░     ░  ░   ░  ░         ░ \u001B[0m"
+                        );
+
+                        isDone = true;
+                        break;
+                    default:
+                        System.out.println("invalid option");
+                        break;
+                }
+
+            } catch (InputMismatchException e) {
+                System.out.println("INVALID OPTION");
+                s.nextLine();
             }
-
 
         }
     }
