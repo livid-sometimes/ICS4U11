@@ -11,6 +11,13 @@ public class Glen_James_UserInfoSystem {
 
     // VIEWING / EDITING USERS //
 
+    /**
+     * Description: Edits the email address of a selected user after verifying their credentials.
+     * Precondition: data must contain valid 2D arrays for userInfo and userData.
+     * PostCondition: The user's email is updated in memory and rewritten to the userInfo file.
+     * @param data An ArrayList containing the user info and login data 2D arrays.
+     */
+
     public static void editEmails(ArrayList<String[][]> data){
 
         if (data.size() == 0) {
@@ -44,7 +51,7 @@ public class Glen_James_UserInfoSystem {
         Scanner userScanner = new Scanner(System.in);
 
         String[][] userInfo = data.get(0);
-        String[][] userData = data.get(1);
+        String[][] userLogin = data.get(1);
 
         String enterUser = "";
         String enterPassword = "";
@@ -99,7 +106,7 @@ public class Glen_James_UserInfoSystem {
             System.out.println("ENTER PASSWORD: ");
             enterPassword = userScanner.nextLine();
 
-            if (userData[option - 1][0].equals(enterUser) && userData[option - 1][1].equals(enterPassword)) {
+            if (userLogin[option - 1][0].equals(enterUser) && userLogin[option - 1][1].equals(enterPassword)) {
                 System.out.println("Enter the new email address: ");
                 newEmail = userScanner.nextLine();
 
@@ -127,6 +134,11 @@ public class Glen_James_UserInfoSystem {
         pw.close();
     }
 
+    /**
+     * Description: Reads and displays all current user records from the userInfo file to the console.
+     * Precondition: userInfo.txt must exist and contain user records.
+     * PostCondition: Displays formatted user details to the standard output.
+     */
 
     public static void displayUsers() {
         for (int i = 0; i < 10; i++) {
@@ -164,10 +176,17 @@ public class Glen_James_UserInfoSystem {
         }
 
         System.out.println("\n═══════════════════════════════════════════════════════════════════════════════════");
-        System.out.println("Press any key to exit");
+        System.out.println("Press the return key to exit");
         System.out.println("═══════════════════════════════════════════════════════════════════════════════════");
         userScanner.nextLine();
     }
+
+    /**
+     * Description: Reads user and login files into separate 2D arrays and packages them into an ArrayList.
+     * Precondition: userInfo.txt and userData.txt must exist and be properly formatted.
+     * PostCondition: Returns an ArrayList containing the parsed userInfo and userData 2D arrays.
+     * @return An ArrayList of 2D String arrays representing user data, or null if a file error occurs.
+     */
 
     public static ArrayList<String[][]> addEmail() {
         int lineCount = 0;
@@ -184,7 +203,7 @@ public class Glen_James_UserInfoSystem {
 
         try {
             frInfo = new FileReader("userInfo.txt");
-            frData = new FileReader("userData.txt");
+            frData = new FileReader("userLogin.txt");
         } catch (IOException e) {
             System.out.println("READING FILE ERROR, are you sure this file has been written?");
             return null;
@@ -210,7 +229,7 @@ public class Glen_James_UserInfoSystem {
         sInfo.close();
 
         String[][] userInfo = new String[lineCount][3];
-        String[][] userData = new String[lineCount][3];
+        String[][] userLogin = new String[lineCount][3];
 
         sInfo = new Scanner(frInfo);
 
@@ -224,7 +243,7 @@ public class Glen_James_UserInfoSystem {
             // [1] -> B-Date
             // [2] -> Email
 
-            // userData
+            // userLogin
             // [0] -> Username
             // [1] -> Password
 
@@ -236,10 +255,10 @@ public class Glen_James_UserInfoSystem {
 
             userInfo[i][0] = infoLine.substring(0, infoLineFirstComma);
             userInfo[i][1] = infoLine.substring(infoLineFirstComma + 2, infoLineSecondComma); // removes the space from the formatting
-            userInfo[i][2] = userInfo[i][2] = infoLine.substring(infoLineSecondComma + 2);
+            userInfo[i][2] = infoLine.substring(infoLineSecondComma + 2);
 
-            userData[i][0] = dataLine.substring(0, commaData);
-            userData[i][1] = dataLine.substring(commaData + 2); // removes the space from the formatting
+            userLogin[i][0] = dataLine.substring(0, commaData);
+            userLogin[i][1] = dataLine.substring(commaData + 2); // removes the space from the formatting
         }
 
         System.out.println("═══════════════════════════════════════════════════════════════════════════════════");
@@ -250,14 +269,22 @@ public class Glen_James_UserInfoSystem {
 
         /*
             data.get(0) -> userInfo
-            data.get(1) -> userData
+            data.get(1) -> userLogin
         */
 
         data.add(userInfo);
-        data.add(userData);
+        data.add(userLogin);
 
         return data;
     }
+
+    /**
+     * Description: Prompts the user to create a secure password matching defined criteria and saves credentials.
+     * Precondition: login string must be provided from the registration step.
+     * PostCondition: A valid password is created, saved to the login file, and returned.
+     * @param login The username string associated with the new password.
+     * @return The validated password string.
+     */
 
     public static String createPassword(String login) {
         Scanner s = new Scanner(System.in);
@@ -271,6 +298,14 @@ public class Glen_James_UserInfoSystem {
         boolean hasSymbols = false;
 
         boolean isValidPassword = false;
+
+        String[] criteria = {
+                "1. At least 12 characters long",
+                "2. Contains uppercase letters",
+                "3. Contains lowercase letters",
+                "4. Contains numbers",
+                "5. Contains symbols"
+        };
 
         while (!isValidPassword) {
             System.out.println("CREATE A PASSWORD: ");
@@ -309,10 +344,10 @@ public class Glen_James_UserInfoSystem {
                 System.out.println("PASSWORD IS NOT VALID.");
                 System.out.println("make sure to have:");
 
-                System.out.println("1. at least one lower case letter");
-                System.out.println("2. at least one upper case letter");
-                System.out.println("3. at least one number");
-                System.out.println("4. at least one symbol. e.x: \"^\", \"@\"");
+                for (int i = 0; i < criteria.length; i++) {
+                    System.out.println(criteria[i]);
+                }
+
                 System.out.println("═══════════════════════════════════════════════════════════════════════════════════");
 
                 for (int i = 0; i < 3; i++) {
@@ -328,7 +363,7 @@ public class Glen_James_UserInfoSystem {
         FileWriter fw = null;
 
         try {
-            fw = new FileWriter("userData.txt", true);
+            fw = new FileWriter("userLogin.txt", true);
         } catch (IOException e) {
             System.out.println("Error happened when creating the file.");
         }
@@ -485,6 +520,14 @@ public class Glen_James_UserInfoSystem {
 
     // VALIDATORS //
 
+    /**
+     * Description: Validates whether a given name meets length and formatting requirements (no spaces, min length 4).
+     * Precondition: name string must not be null.
+     * PostCondition: Returns true if the name is valid, false otherwise.
+     * @param name The name string to validate.
+     * @return boolean indicating if it's valid
+     */
+
     public static boolean validateName(String name) {
         // NOTE: min name length is 4 //
         if (name.length() < 4) {
@@ -501,6 +544,14 @@ public class Glen_James_UserInfoSystem {
 
         return true;
     }
+
+    /**
+     * Description: Validates whether a birthdate string represents a real date in MMDDYYYY format.
+     * Precondition: birthDate string must be numeric and 8 characters long.
+     * PostCondition: Returns true if the date is a valid calendar date up to the maximum allowed year, false otherwise.
+     * @param birthDate The birthdate string in MMDDYYYY format.
+     * @return boolean indicating if it's valid.
+     */
 
     public static boolean validateBirth(String birthDate) {
         // see if it's a valid int //
@@ -563,6 +614,8 @@ public class Glen_James_UserInfoSystem {
 
     }
 
+    // MAIN //
+
     public static void main(String[] args) throws InterruptedException{
 
         // important variables //
@@ -577,12 +630,12 @@ public class Glen_James_UserInfoSystem {
 
 
         /*
-            On startup, wipe the old userInfo.txt and userData.txt
+            On startup, wipe the old userInfo.txt and userLogin.txt
         */
 
         try {
             new FileWriter("userInfo.txt", false);
-            new FileWriter("userData.txt", false);
+            new FileWriter("userLogin.txt", false);
         } catch (IOException e) {
             System.out.println("Failed to wipe, are you sure these file exist?");
         }
