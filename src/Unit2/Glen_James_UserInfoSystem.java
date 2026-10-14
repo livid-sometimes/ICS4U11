@@ -13,6 +13,13 @@ public class Glen_James_UserInfoSystem {
 
     public static void editEmails(ArrayList<String[][]> data){
 
+        if (data.size() == 0) {
+            System.out.println("═══════════════════════════════════════════════════════════════════════════════════");
+            System.out.println("No users currently to edit users for.");
+            System.out.println("═══════════════════════════════════════════════════════════════════════════════════");
+            return;
+        }
+
         for (int i = 0; i < 10; i++) {
             System.out.println();
         }
@@ -30,6 +37,7 @@ public class Glen_James_UserInfoSystem {
         int count = 0;
 
         FileReader frInfo = null;
+        FileWriter frWriter = null;
         Scanner sInfo = null;
 
         Scanner userScanner = new Scanner(System.in);
@@ -45,35 +53,36 @@ public class Glen_James_UserInfoSystem {
 
         try {
             frInfo = new FileReader("userInfo.txt");
+            frWriter = new FileWriter("userInfo.txt");
         } catch (IOException e) {
             System.out.println("READING FILE ERROR, are you sure this file has been written?");
             return;
         }
 
         sInfo = new Scanner(frInfo);
-
         while (sInfo.hasNextLine()) {
-            count++;
             System.out.println(count + ". " + sInfo.nextLine());
+            count++;
         }
 
-        // Reset the Scanner and FileReader //
+
+
         try {
             frInfo.close();
-            frInfo = new FileReader("userInfo.txt");
         } catch (IOException e) {
             System.out.println("READING FILE ERROR, are you sure this file has been written?");
             return;
         }
 
         sInfo.close();
-        sInfo = new Scanner(frInfo);
+        PrintWriter pw = new PrintWriter(frWriter);
 
         try {
             System.out.println("═══════════════════════════════════════════════════════════════════════════════════");
             System.out.println("Who are you editing: ");
 
             option = userScanner.nextInt();
+            userScanner.nextLine(); // advance the scanner
 
             System.out.println("ENTER USERNAME: ");
             enterUser = userScanner.nextLine();
@@ -83,15 +92,9 @@ public class Glen_James_UserInfoSystem {
 
             if (userData[option - 1][0].equals(enterUser) && userData[option - 1][1].equals(enterPassword)) {
                 System.out.println("Enter the new email address: ");
+                newEmail = userScanner.nextLine();
 
-                // jump to that line //
-                for (int i = 0; i < count; i++) {
-                    if (!sInfo.hasNextLine()) { i = count; }
-                    sInfo.nextLine();
-                }
-
-                System.out.println(sInfo.nextLine());
-
+                userInfo[option - 1][2] = newEmail;
             } else {
                 System.out.println("INVALID USERNAME or PASSWORD");
             }
@@ -102,6 +105,17 @@ public class Glen_James_UserInfoSystem {
             System.out.println("An error occurred while editing the email.");
         }
 
+        // then we update the files //
+        for (int i = 0; i < userInfo.length; i++) {
+                pw.print(userInfo[i][0] + ", ");
+                pw.print(userInfo[i][1] + ", ");
+                pw.print(userInfo[i][2]);
+
+                pw.println();
+        }
+
+
+        pw.close();
     }
 
 
@@ -438,17 +452,16 @@ public class Glen_James_UserInfoSystem {
         pw.print(email);
 
         pw.println(); // create a space for the next lines.
-
         pw.close();
 
         lastTwo = lastName.substring(lastName.length() - 2);
         firstThree = middleName.substring(0, 3);
         days = birthDate.substring(2, 4);
 
-        reverseOrder = firstName.substring(0, 4);
+        reverseOrder = firstName.substring(0, 3);
 
-        for (int i = reverseOrder.length() - 1; i > reverseOrder.length() - 4; i--) {
-            tempReverse += reverseOrder.charAt(i);
+        for (int i = 0; i < reverseOrder.length(); i++) {
+            tempReverse = reverseOrder.charAt(i) + tempReverse;
         }
 
         reverseOrder = tempReverse;
