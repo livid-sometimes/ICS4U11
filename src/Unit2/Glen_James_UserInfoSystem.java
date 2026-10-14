@@ -17,6 +17,7 @@ public class Glen_James_UserInfoSystem {
             System.out.println("═══════════════════════════════════════════════════════════════════════════════════");
             System.out.println("No users currently to edit users for.");
             System.out.println("═══════════════════════════════════════════════════════════════════════════════════");
+
             return;
         }
 
@@ -53,19 +54,18 @@ public class Glen_James_UserInfoSystem {
 
         try {
             frInfo = new FileReader("userInfo.txt");
-            frWriter = new FileWriter("userInfo.txt");
+            frWriter = new FileWriter("userInfo.txt", true);
         } catch (IOException e) {
             System.out.println("READING FILE ERROR, are you sure this file has been written?");
             return;
         }
 
         sInfo = new Scanner(frInfo);
+
         while (sInfo.hasNextLine()) {
-            System.out.println(count + ". " + sInfo.nextLine());
             count++;
+            System.out.println(count + ". " + sInfo.nextLine());
         }
-
-
 
         try {
             frInfo.close();
@@ -74,7 +74,16 @@ public class Glen_James_UserInfoSystem {
             return;
         }
 
+
         sInfo.close();
+
+        // then we set the frWriter to not append, so it just wipes everything.
+        try {
+            frWriter = new FileWriter("userInfo.txt", false);
+        } catch (IOException e) {
+            System.out.println("ERROR WHEN CREATING NEW FILEWRITER");
+        }
+
         PrintWriter pw = new PrintWriter(frWriter);
 
         try {
@@ -264,7 +273,6 @@ public class Glen_James_UserInfoSystem {
         boolean isValidPassword = false;
 
         while (!isValidPassword) {
-            System.out.println("═══════════════════════════════════════════════════════════════════════════════════");
             System.out.println("CREATE A PASSWORD: ");
             System.out.println("═══════════════════════════════════════════════════════════════════════════════════");
             password = s.nextLine();
